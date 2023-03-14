@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace App_ChatApi.ViewModels
+namespace App_Chat_Common.ViewModels
 {
     public class RegisterViewModel
     {

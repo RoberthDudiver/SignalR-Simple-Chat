@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace App_ChatRoom.Data
+namespace App_Chat_Common.Data
 {
     public class ApplicationUser : IdentityUser
     {

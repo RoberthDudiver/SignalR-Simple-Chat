@@ -1,6 +1,6 @@
-﻿using App_ChatApi.Data.Dto;
+﻿using App_Chat_Common.Data.Dto;
 
-namespace App_ChatApi.Responses
+namespace App_Chat_Common.Responses
 {
     public class RegistrationResponse
     {

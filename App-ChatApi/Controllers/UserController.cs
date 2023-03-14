@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using App_ChatApi.Data;
-using App_ChatApi.ViewModels;
-using App_ChatApi.Migrations;
-using App_ChatApi.Responses;
+using App_Chat_Common.ViewModels;
+using App_Chat_Common.Data.Dto;
+using App_Chat_Common.Responses;
 using AutoMapper;
 using App_ChatApi.Maps;
-using App_ChatApi.Data.Dto;
+using App_Chat_Common.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

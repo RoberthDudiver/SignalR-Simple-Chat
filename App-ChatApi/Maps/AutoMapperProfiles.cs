@@ -1,5 +1,5 @@
-﻿using App_ChatApi.Data;
-using App_ChatApi.Data.Dto;
+﻿using App_Chat_Common.Data;
+using App_Chat_Common.Data.Dto;
 using AutoMapper;
 
 namespace App_ChatApi.Maps

@@ -1,0 +1,47 @@
+﻿@page "/login"
+@page "/"
+@using System.Collections.Generic
+@using System.Net.Http
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components.Forms
+@using App_ChatRoom.Process 
+@using App_Chat_Common.ViewModels
+@using App_ChatRoom.Services
+@inject NavigationManager NavigationManager
+
+@inject ILocalStorage JSRuntime
+
+<EditForm Model="@LoginModel" OnValidSubmit="@OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <InputText id="username" class="form-control" @bind-Value="LoginModel.Email" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <InputText id="password" class="form-control" @bind-Value="LoginModel.Password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button>
+</EditForm>
+
+@code {
+    private LoginViewModel LoginModel { get; set; } = new LoginViewModel();
+
+    [Inject]
+    private IEndpointsProcess EndpointsProcess { get; set; }
+
+    private async Task OnSubmit()
+    {
+        var result = await EndpointsProcess.Login(LoginModel);
+        if (result.Success)
+        {
+            await JSRuntime.SetItem("authToken", result.Token);
+
+            NavigationManager.NavigateTo("/chatlist");
+        }
+    }
+}

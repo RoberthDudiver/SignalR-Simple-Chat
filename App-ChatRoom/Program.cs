@@ -1,6 +1,9 @@
 using App_ChatRoom.Data;
+using App_ChatRoom.Process;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using App_ChatRoom.Validator;
+using App_ChatRoom.Services;
 
 namespace App_ChatRoom
 {
@@ -15,8 +18,11 @@ namespace App_ChatRoom
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddSignalR();
-
-            var app = builder.Build();
+            builder.Services.AddScoped<IEndpointsProcess, EndpointsProcess>();
+            builder.Services.AddScoped<ITokenValidator, TokenValidator>();
+            builder.Services.AddScoped<ILocalStorage, LocalStorage>();
+        
+       var app = builder.Build();
        
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

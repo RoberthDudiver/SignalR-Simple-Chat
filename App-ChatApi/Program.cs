@@ -7,6 +7,7 @@ using App_ChatApi.Data;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using App_Chat_Common.Data;
 
 namespace App_ChatApi
 {

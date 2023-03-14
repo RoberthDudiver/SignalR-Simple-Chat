@@ -1,4 +1,4 @@
-﻿namespace App_ChatApi.Data.Dto
+﻿namespace App_Chat_Common.Data.Dto
 {
     public class ApplicationUserDto
     {
