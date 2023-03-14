@@ -39,7 +39,7 @@
         var result = await EndpointsProcess.Login(LoginModel);
         if (result.Success)
         {
-            await JSRuntime.SetItem("authToken", result.Token);
+            await JSRuntime.SetItem("authToken", result);
 
             NavigationManager.NavigateTo("/chatlist");
         }

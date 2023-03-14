@@ -1,6 +1,10 @@
 ﻿@page "/chat/{roomName}"
 @using Microsoft.AspNetCore.SignalR.Client
+@using App_Chat_Common.Responses
+@using App_ChatRoom.Services
 @inject NavigationManager NavigationManager
+@inject ILocalStorage JSRuntime
+@inject App_ChatRoom.Validator.ITokenValidator tokenValidator
 
 <h1>@roomName Chat Room</h1>
 
@@ -21,33 +25,46 @@
     private string message;
     private List<string> messages = new List<string>();
     private HubConnection hubConnection;
+    private LoginResponse user;
 
     protected override async Task OnInitializedAsync()
     {
+         user = await JSRuntime.GetItem<LoginResponse>("authToken");
+        if (string.IsNullOrEmpty(user.Token))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else if (!await tokenValidator.IsTokenValidAsync(user.Token))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
 
-        hubConnection = new HubConnectionBuilder()
+            hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
             .Build();
 
-        hubConnection.On<string, string>("ReceiveMessage", async (r, m) =>
-        {
-            //if (r == roomName)
-            //{
+            hubConnection.On<string, string>("ReceiveMessage", async (r, m) =>
+            {
+                //if (r == roomName)
+                //{
                 await InvokeAsync(() =>
-                {
-                    messages.Add($"{r} - {m}");
-                    StateHasChanged();
-                });
-            //}
+        {
+            messages.Add($"{r} - {m}");
+            StateHasChanged();
         });
+                //}
+            });
 
-        await hubConnection.StartAsync();
-        await hubConnection.SendAsync("JoinRoom", roomName);
+            await hubConnection.StartAsync();
+            await hubConnection.SendAsync("JoinRoom", roomName);
+        }
     }
 
     private async Task SendMessage()
     {
-        await hubConnection.SendAsync("SendMessage", "user", message, roomName);
+        await hubConnection.SendAsync("SendMessage",user.UserName, message, roomName);
         message = "";
     }
 }

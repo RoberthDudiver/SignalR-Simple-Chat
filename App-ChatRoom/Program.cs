@@ -21,8 +21,9 @@ namespace App_ChatRoom
             builder.Services.AddScoped<IEndpointsProcess, EndpointsProcess>();
             builder.Services.AddScoped<ITokenValidator, TokenValidator>();
             builder.Services.AddScoped<ILocalStorage, LocalStorage>();
-        
-       var app = builder.Build();
+            builder.Services.AddControllers();
+
+            var app = builder.Build();
        
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -37,6 +38,8 @@ namespace App_ChatRoom
             app.UseEndpoints(endpoints =>
                    {
                        endpoints.MapHub<ChatHub>("/chathub");
+                       endpoints.MapControllers();
+
                    });
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");

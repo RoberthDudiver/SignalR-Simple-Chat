@@ -1,5 +1,6 @@
 ﻿@page "/chatlist"
 @using App_ChatRoom.Services
+@using App_Chat_Common.Responses
 @inject NavigationManager NavigationManager
 
 @inject ILocalStorage JSRuntime
@@ -24,12 +25,12 @@
 @code{
 protected override async Task OnInitializedAsync()
 {
-        var token = await JSRuntime.GetItem<string>("authToken");
-    if (string.IsNullOrEmpty(token))
+        var user = await JSRuntime.GetItem<LoginResponse>("authToken");
+    if (string.IsNullOrEmpty(user.Token))
     {
         NavigationManager.NavigateTo("/login");
     }
-    else if (!await tokenValidator.IsTokenValidAsync(token))
+    else if (!await tokenValidator.IsTokenValidAsync(user.Token))
     {
         NavigationManager.NavigateTo("/login");
     }
